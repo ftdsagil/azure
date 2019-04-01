@@ -58,7 +58,9 @@
         }
     },
     "variables": {
-        "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
+		"networkSecurityGroupNameVar": "[concat(parameters('virtualMachineName'), parameters('networkSecurityGroupName'))]",
+		"publicIpAddressNameVar": "[concat(parameters('virtualMachineName'), parameters('publicIpAddressName'))]",
+        "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupNameVar'))]",
         "vnetId": "[parameters('virtualNetworkId')]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
         "diagnosticsExtensionName": "LinuxDiagnostic",
@@ -71,13 +73,13 @@
     },
     "resources": [
         {
-            "name": "[parameters('networkInterfaceName')]",
+            "name": "[concat(parameters('virtualMachineName'), parameters('networkInterfaceName'))]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
-                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupNameVar'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressNameVar'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -89,7 +91,7 @@
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('publicIpAddressNameVar'))]"
                             }
                         }
                     }
@@ -101,7 +103,7 @@
             "tags": {}
         },
         {
-            "name": "[parameters('networkSecurityGroupName')]",
+            "name": "[variables('networkSecurityGroupNameVar')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2018-08-01",
             "location": "[parameters('location')]",
@@ -111,7 +113,7 @@
             "tags": {}
         },
         {
-            "name": "[parameters('publicIpAddressName')]",
+            "name": "[variables('publicIpAddressNameVar')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2018-08-01",
             "location": "[parameters('location')]",
