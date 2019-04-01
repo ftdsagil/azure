@@ -5,9 +5,6 @@
         "location": {
             "type": "string"
         },
-        "networkInterfaceName": {
-            "type": "string"
-        },
         "networkSecurityGroupName": {
             "type": "string"
         },
@@ -55,6 +52,7 @@
 		"publicIpAddressNameVar": "[concat(parameters('virtualMachineName'), parameters('publicIpAddressName'))]",
         "nsgId": "[parameters('networkSecurityGroupName')]",
         "vnetId": "[parameters('virtualNetworkId')]",
+		"networkInterfaceAutoName": "[concat(parameters('virtualMachineName'),'-nsg')]"
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
         "diagnosticsExtensionName": "LinuxDiagnostic",
         "storageAccountSasTokenRequestContent": {
@@ -66,7 +64,7 @@
     },
     "resources": [
         {
-            "name": "[concat(parameters('virtualMachineName'), parameters('networkInterfaceName'))]",
+            "name": "[variables('networkInterfaceAutoName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
             "location": "[parameters('location')]",
