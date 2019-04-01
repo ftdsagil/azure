@@ -53,7 +53,7 @@
     },
     "variables": {
 		"publicIpAddressNameVar": "[concat(parameters('virtualMachineName'), parameters('publicIpAddressName'))]",
-        "nsgId": "[parameters('networkSecurityGroupId')]",
+        "nsgId": "[parameters('networkSecurityGroupName')]",
         "vnetId": "[parameters('virtualNetworkId')]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
         "diagnosticsExtensionName": "LinuxDiagnostic",
@@ -91,16 +91,6 @@
                 "networkSecurityGroup": {
                     "id": "[variables('nsgId')]"
                 }
-            },
-            "tags": {}
-        },
-        {
-            "name": "[parameters('networkSecurityGroupName')]",
-            "type": "Microsoft.Network/networkSecurityGroups",
-            "apiVersion": "2018-08-01",
-            "location": "[parameters('location')]",
-            "properties": {
-                "securityRules": "[]"
             },
             "tags": {}
         },
