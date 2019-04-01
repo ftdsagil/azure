@@ -52,7 +52,7 @@
 		"publicIpAddressNameVar": "[concat(parameters('virtualMachineName'), parameters('publicIpAddressName'))]",
         "nsgId": "[parameters('networkSecurityGroupName')]",
         "vnetId": "[parameters('virtualNetworkId')]",
-		"networkInterfaceAutoName": "[concat(parameters('virtualMachineName'),'-nsg')]"
+		"networkInterfaceAutoName": "[concat(parameters('virtualMachineName'),'-nsg')]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
         "diagnosticsExtensionName": "LinuxDiagnostic",
         "storageAccountSasTokenRequestContent": {
